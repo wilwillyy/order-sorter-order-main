@@ -1,5 +1,5 @@
 # Order Sorter
-Aplikasi mempermudah seller untuk mengklasifikasikan orderan dari shopee dan tiktokshop. sebagai checklist pesanan.
+Aplikasi untuk mempermudah seller untuk mengklasifikasikan orderan dari shopee dan tiktokshop. sebagai checklist pesanan.
 
 Project ini disiapkan untuk deploy static ke Vercel menggunakan Vite.
 
