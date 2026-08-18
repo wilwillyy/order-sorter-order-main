@@ -3,7 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, ReactNode } from 'react';
 import * as XLSX from 'xlsx';
 import { doc, onSnapshot, setDoc } from 'firebase/firestore';
-import { db, ensureAnonymousSession } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db, ensureAnonymousSession } from './firebase';
 import {
   AlertTriangle,
   Archive,
@@ -150,6 +151,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<ToastState>(null);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [firebaseReady, setFirebaseReady] = useState(false);
   const [isDark, setIsDark] = useState<boolean>(() => {
     if (!isBrowser) return false;
 
@@ -161,6 +163,7 @@ export default function App() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
   const isRemoteSyncBlocked = useRef(false);
+  const hasReceivedInitialRemoteState = useRef(false);
   const latestSharedState = useRef({ orders, historyOrders, producedItems, logs });
 
   useEffect(() => {
@@ -176,8 +179,22 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!db) return;
-    void ensureAnonymousSession();
+    if (!auth) {
+      console.warn('[Firebase Debug] Auth not initialized. Check Vercel env values.');
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        setFirebaseReady(true);
+        console.log('[Firebase Debug] Anonymous auth active:', user.uid);
+        return;
+      }
+
+      void ensureAnonymousSession();
+    });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -192,7 +209,7 @@ export default function App() {
 
     setStorage(STORAGE_KEYS.orders, orders);
 
-    if (!db) return;
+    if (!db || !firebaseReady || !hasReceivedInitialRemoteState.current) return;
 
     if (isRemoteSyncBlocked.current) {
       isRemoteSyncBlocked.current = false;
@@ -200,13 +217,16 @@ export default function App() {
     }
 
     void syncStateToCloud({ orders, historyOrders, producedItems, logs });
-  }, [hasHydrated, orders, historyOrders, producedItems, logs]);
+  }, [hasHydrated, firebaseReady, orders, historyOrders, producedItems, logs]);
 
   useEffect(() => {
-    if (!db || !hasHydrated) return;
+    if (!db || !hasHydrated || !firebaseReady) return;
 
     const sharedRef = doc(db, 'wms', SHARED_SYNC_DOC);
     const unsubscribe = onSnapshot(sharedRef, snapshot => {
+      console.log('[Firebase Debug] snapshot received:', snapshot.exists(), snapshot.data());
+      hasReceivedInitialRemoteState.current = true;
+
       if (!snapshot.exists()) {
         void syncStateToCloud(latestSharedState.current);
         return;
@@ -237,11 +257,11 @@ export default function App() {
       setProducedItems(nextProducedItems);
       setLogs(nextLogs);
     }, error => {
-      console.error('Firestore sync error:', error);
+      console.error('[Firebase Debug] Firestore sync error:', error);
     });
 
     return () => unsubscribe();
-  }, [hasHydrated]);
+  }, [hasHydrated, firebaseReady]);
 
   const showToast = (message: string, type: ToastType = 'info') => {
     setToast({ message, type });

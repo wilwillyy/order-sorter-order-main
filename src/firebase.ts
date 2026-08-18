@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -28,3 +28,20 @@ export const ensureAnonymousSession = async () => {
     console.error('Gagal membuat sesi anonim Firebase:', error);
   }
 };
+
+declare global {
+  interface Window {
+    __ORDER_SORTER_FIREBASE__?: {
+      auth: typeof auth;
+      db: typeof db;
+    };
+  }
+}
+
+if (typeof window !== 'undefined' && auth && db) {
+  window.__ORDER_SORTER_FIREBASE__ = { auth, db };
+
+  onAuthStateChanged(auth, user => {
+    console.log('[Firebase Debug] auth state:', user ? 'anonymous user ready' : 'not authenticated');
+  });
+}
