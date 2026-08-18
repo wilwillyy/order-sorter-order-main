@@ -1,7 +1,9 @@
 import logoUrl from './logo.png';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, ReactNode } from 'react';
 import * as XLSX from 'xlsx';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { db, ensureAnonymousSession } from './firebase';
 import {
   AlertTriangle,
   Archive,
@@ -81,7 +83,30 @@ const STORAGE_KEYS = {
   logs: 'wms_logs',
 } as const;
 
+const SHARED_SYNC_DOC = 'wms_shared_state';
+
 const isBrowser = typeof window !== 'undefined';
+
+const syncStateToCloud = async (state: {
+  orders: Order[];
+  historyOrders: Order[];
+  producedItems: ProducedItemsMap;
+  logs: LogEntry[];
+}) => {
+  if (!db) return;
+
+  try {
+    await setDoc(doc(db, 'wms', SHARED_SYNC_DOC), {
+      orders: state.orders,
+      historyOrders: state.historyOrders,
+      producedItems: state.producedItems,
+      logs: state.logs,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Gagal sinkronisasi data ke cloud:', error);
+  }
+};
 
 const getStorage = <T,>(key: string, defaultValue: T): T => {
   if (!isBrowser) return defaultValue;
@@ -135,6 +160,12 @@ export default function App() {
 
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
+  const isRemoteSyncBlocked = useRef(false);
+  const latestSharedState = useRef({ orders, historyOrders, producedItems, logs });
+
+  useEffect(() => {
+    latestSharedState.current = { orders, historyOrders, producedItems, logs };
+  }, [orders, historyOrders, producedItems, logs]);
 
   useEffect(() => {
     setOrders(getStorage<Order[]>(STORAGE_KEYS.orders, []));
@@ -142,6 +173,11 @@ export default function App() {
     setProducedItems(getStorage<ProducedItemsMap>(STORAGE_KEYS.producedItems, {}));
     setLogs(getStorage<LogEntry[]>(STORAGE_KEYS.logs, []));
     setHasHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!db) return;
+    void ensureAnonymousSession();
   }, []);
 
   useEffect(() => {
@@ -153,23 +189,59 @@ export default function App() {
 
   useEffect(() => {
     if (!hasHydrated) return;
+
     setStorage(STORAGE_KEYS.orders, orders);
-  }, [hasHydrated, orders]);
+
+    if (!db) return;
+
+    if (isRemoteSyncBlocked.current) {
+      isRemoteSyncBlocked.current = false;
+      return;
+    }
+
+    void syncStateToCloud({ orders, historyOrders, producedItems, logs });
+  }, [hasHydrated, orders, historyOrders, producedItems, logs]);
 
   useEffect(() => {
-    if (!hasHydrated) return;
-    setStorage(STORAGE_KEYS.history, historyOrders);
-  }, [hasHydrated, historyOrders]);
+    if (!db || !hasHydrated) return;
 
-  useEffect(() => {
-    if (!hasHydrated) return;
-    setStorage(STORAGE_KEYS.producedItems, producedItems);
-  }, [hasHydrated, producedItems]);
+    const sharedRef = doc(db, 'wms', SHARED_SYNC_DOC);
+    const unsubscribe = onSnapshot(sharedRef, snapshot => {
+      if (!snapshot.exists()) {
+        void syncStateToCloud(latestSharedState.current);
+        return;
+      }
 
-  useEffect(() => {
-    if (!hasHydrated) return;
-    setStorage(STORAGE_KEYS.logs, logs);
-  }, [hasHydrated, logs]);
+      const remoteData = snapshot.data() as Partial<{
+        orders: Order[];
+        historyOrders: Order[];
+        producedItems: ProducedItemsMap;
+        logs: LogEntry[];
+      }>;
+
+      const nextOrders = Array.isArray(remoteData.orders) ? remoteData.orders : latestSharedState.current.orders;
+      const nextHistoryOrders = Array.isArray(remoteData.historyOrders) ? remoteData.historyOrders : latestSharedState.current.historyOrders;
+      const nextProducedItems = remoteData.producedItems && typeof remoteData.producedItems === 'object'
+        ? remoteData.producedItems
+        : latestSharedState.current.producedItems;
+      const nextLogs = Array.isArray(remoteData.logs) ? remoteData.logs : latestSharedState.current.logs;
+
+      const currentSnapshot = JSON.stringify(latestSharedState.current);
+      const nextSnapshot = JSON.stringify({ orders: nextOrders, historyOrders: nextHistoryOrders, producedItems: nextProducedItems, logs: nextLogs });
+
+      if (currentSnapshot === nextSnapshot) return;
+
+      isRemoteSyncBlocked.current = true;
+      setOrders(nextOrders);
+      setHistoryOrders(nextHistoryOrders);
+      setProducedItems(nextProducedItems);
+      setLogs(nextLogs);
+    }, error => {
+      console.error('Firestore sync error:', error);
+    });
+
+    return () => unsubscribe();
+  }, [hasHydrated]);
 
   const showToast = (message: string, type: ToastType = 'info') => {
     setToast({ message, type });
