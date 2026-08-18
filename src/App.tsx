@@ -398,40 +398,40 @@ export default function App() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-8 md:p-10 rounded-[2rem] shadow-xl shadow-blue-500/20 text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-br from-[var(--md-primary)] to-[#7C67C9] p-8 md:p-10 rounded-[28px] shadow-[0_12px_32px_rgba(103,80,164,0.22)] text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <Package className="absolute -right-6 -top-6 w-40 h-40 text-white opacity-10 group-hover:scale-110 transition-transform duration-700 ease-out" />
             <div>
               <div className="flex items-center gap-3 mb-4 opacity-90">
-                <Package size={28} /> <h3 className="font-semibold text-xl tracking-wide uppercase">Total Pesanan Aktif</h3>
+                <Package size={28} /> <h3 className="font-semibold text-xl tracking-[0.08em] uppercase">Total Pesanan Aktif</h3>
               </div>
               <p className="text-7xl font-black drop-shadow-md">{totalOrders}</p>
             </div>
             <div className="mt-10 flex flex-wrap gap-3 text-sm font-bold">
-              <span className="bg-white/20 backdrop-blur-md px-6 py-3 rounded-xl flex-1 text-center shadow-inner border border-white/10 text-lg">Shopee: {shopeeOrders}</span>
-              <span className="bg-white/20 backdrop-blur-md px-6 py-3 rounded-xl flex-1 text-center shadow-inner border border-white/10 text-lg">TikTok: {tiktokOrders}</span>
+              <span className="bg-white/15 backdrop-blur-md px-6 py-3 rounded-2xl flex-1 text-center shadow-inner border border-white/10 text-lg">Shopee: {shopeeOrders}</span>
+              <span className="bg-white/15 backdrop-blur-md px-6 py-3 rounded-2xl flex-1 text-center shadow-inner border border-white/10 text-lg">TikTok: {tiktokOrders}</span>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-orange-400 to-rose-500 p-8 md:p-10 rounded-[2rem] shadow-xl shadow-orange-500/20 text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-br from-[#FFB86C] to-[#F97E6A] p-8 md:p-10 rounded-[28px] shadow-[0_12px_32px_rgba(249,126,106,0.22)] text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <PackageOpen className="absolute -right-6 -top-6 w-40 h-40 text-white opacity-10 group-hover:scale-110 transition-transform duration-700 ease-out" />
             <div>
               <div className="flex items-center gap-3 mb-4 opacity-90">
-                <PackageOpen size={28} /> <h3 className="font-semibold text-xl tracking-wide uppercase">Belum di Packing</h3>
+                <PackageOpen size={28} /> <h3 className="font-semibold text-xl tracking-[0.08em] uppercase">Belum di Packing</h3>
               </div>
               <p className="text-7xl font-black drop-shadow-md">{pendingOrders}</p>
             </div>
             <div className="mt-10">
-              <span className="bg-white/20 backdrop-blur-md px-6 py-3 rounded-xl inline-block w-full text-center shadow-inner border border-white/10 text-base font-semibold">
+              <span className="bg-white/15 backdrop-blur-md px-6 py-3 rounded-2xl inline-block w-full text-center shadow-inner border border-white/10 text-base font-semibold">
                 Pesanan status PENDING di Antrean
               </span>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-emerald-400 to-teal-500 p-8 md:p-10 rounded-[2rem] shadow-xl shadow-emerald-500/20 text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-br from-[#3EC8A4] to-[#0E9F8D] p-8 md:p-10 rounded-[28px] shadow-[0_12px_32px_rgba(14,159,141,0.22)] text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <CheckCircle className="absolute -right-6 -top-6 w-40 h-40 text-white opacity-10 group-hover:scale-110 transition-transform duration-700 ease-out" />
             <div>
               <div className="flex items-center gap-3 mb-4 opacity-90">
-                <CheckCircle size={28} /> <h3 className="font-semibold text-xl tracking-wide uppercase">Siap Dikirim Ke Kurir</h3>
+                <CheckCircle size={28} /> <h3 className="font-semibold text-xl tracking-[0.08em] uppercase">Siap Dikirim Ke Kurir</h3>
               </div>
               <p className="text-7xl font-black drop-shadow-md">{readyOrders}</p>
             </div>
@@ -440,22 +440,21 @@ export default function App() {
                 if(readyOrders === 0) return showToast('Tidak ada pesanan siap kirim', 'error');
                 setOrders(prev => prev.map(o => o.status === 'Ready to Shipment' ? { ...o, status: 'Completed' } : o));
                 
-                // Update history juga agar statusnya valid
                 setHistoryOrders(prev => prev.map(o => o.status === 'Ready to Shipment' ? { ...o, status: 'Completed' } : o));
 
                 logActivity(`Menyerahkan ${readyOrders} pesanan ke kurir`);
                 showToast('Pesanan diserahkan ke kurir!', 'success');
               }}
-              className="mt-10 w-full bg-white hover:bg-slate-50 text-teal-700 py-4 rounded-xl text-lg font-bold transition-all shadow-lg hover:shadow-xl active:scale-95 border-2 border-transparent hover:border-teal-200">
+              className="mt-10 w-full bg-white hover:bg-slate-50 text-[#0E9F8D] py-4 rounded-2xl text-lg font-bold transition-all shadow-[0_10px_24px_rgba(11,73,64,0.2)] active:scale-95 border-2 border-transparent hover:border-emerald-100">
               Tandai Selesai Dikirim
             </button>
           </div>
 
-          <div className="bg-gradient-to-br from-fuchsia-500 to-purple-600 p-8 md:p-10 rounded-[2rem] shadow-xl shadow-purple-500/20 text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
+          <div className="bg-gradient-to-br from-[#AF7AFB] to-[#6B5BF5] p-8 md:p-10 rounded-[28px] shadow-[0_12px_32px_rgba(107,91,245,0.22)] text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
             <Archive className="absolute -right-6 -top-6 w-40 h-40 text-white opacity-10 group-hover:scale-110 transition-transform duration-700 ease-out" />
             <div>
               <div className="flex items-center gap-3 mb-4 opacity-90">
-                <Archive size={28} /> <h3 className="font-semibold text-xl tracking-wide uppercase">Progress Harian</h3>
+                <Archive size={28} /> <h3 className="font-semibold text-xl tracking-[0.08em] uppercase">Progress Harian</h3>
               </div>
               <div className="flex items-end gap-2">
                 <p className="text-7xl font-black drop-shadow-md">{progress}%</p>
@@ -559,12 +558,12 @@ export default function App() {
 
   const ImportView = () => (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="bg-white dark:bg-[#0f172a] rounded-xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm text-center">
-        <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-          <Upload className="text-blue-500" size={36} />
+      <div className="bg-[var(--md-surface)] rounded-[28px] p-8 border border-[var(--md-outline-variant)] shadow-[0_8px_24px_rgba(34,28,43,0.08)] text-center">
+        <div className="w-20 h-20 bg-[var(--md-primary-container)] rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_8px_20px_rgba(103,80,164,0.16)]">
+          <Upload className="text-[var(--md-primary)]" size={36} />
         </div>
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">Upload Data Pesanan</h2>
-        <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-lg mx-auto">
+        <h2 className="text-2xl font-bold text-[var(--md-on-surface)] mb-2">Upload Data Pesanan</h2>
+        <p className="text-[var(--md-on-surface-variant)] mb-8 max-w-lg mx-auto">
           Sistem otomatis mengelompokkan pesanan berdasarkan TikTok Shop atau Shopee. Format CSV sangat disarankan untuk TikTok Shop.
         </p>
         
@@ -576,7 +575,7 @@ export default function App() {
             onChange={handleFileUpload}
             disabled={loading}
           />
-          <button className={`bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg shadow-blue-500/30 transition-all ${loading ? 'opacity-50 cursor-wait' : ''}`}>
+          <button className={`bg-[var(--md-primary)] hover:bg-[#5d4ca1] text-white font-semibold py-3.5 px-8 rounded-full shadow-[0_12px_24px_rgba(103,80,164,0.28)] transition-all ${loading ? 'opacity-50 cursor-wait' : ''}`}>
             {loading ? 'Memproses File...' : 'Pilih File Excel / CSV'}
           </button>
         </div>
@@ -674,20 +673,20 @@ export default function App() {
           </div>
           <div className="flex gap-3 w-full md:w-auto">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--md-on-surface-variant)]" size={16} />
               <input 
                 type="text" placeholder="Cari No Pesanan / Produk..." 
-                className="pl-9 pr-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+                className="pl-10 pr-4 py-2.5 rounded-2xl border border-[var(--md-outline)] bg-[var(--md-surface)] text-[var(--md-on-surface)] shadow-[0_2px_8px_rgba(0,0,0,0.04)] focus:border-[var(--md-primary)] focus:outline-none"
                 value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
               />
             </div>
-            <button onClick={() => isBrowser && window.print()} className="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+            <button onClick={() => isBrowser && window.print()} className="bg-[var(--md-primary)] hover:bg-[#5d4ca1] text-white px-4 py-2.5 rounded-2xl flex items-center gap-2 shadow-[0_8px_18px_rgba(103,80,164,0.24)]">
               <Printer size={18} /> Print
             </button>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#0f172a] rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+        <div className="bg-[var(--md-surface)] rounded-[28px] shadow-[0_8px_24px_rgba(34,28,43,0.08)] border border-[var(--md-outline-variant)] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
               <thead className="bg-slate-50 dark:bg-[#1e293b] text-slate-700 dark:text-slate-200 font-semibold border-b border-slate-200 dark:border-slate-700">
@@ -956,18 +955,19 @@ export default function App() {
         setCurrentTab(id);
         setIsSidebarOpen(false); // Otomatis tutup sidebar di HP saat menu di klik
       }}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors text-sm font-medium ${
-        currentTab === id 
-        ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400' 
-        : 'text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/50'
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 text-sm font-semibold tracking-[0.01em] ${
+        currentTab === id
+          ? 'bg-[var(--md-secondary-container)] text-[var(--md-on-secondary-container)] shadow-[0_1px_2px_rgba(0,0,0,0.06)]'
+          : 'text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-variant)]'
       }`}
     >
-      {icon} {label}
+      <span className={currentTab === id ? 'text-[var(--md-primary)]' : 'text-[var(--md-on-surface-variant)]'}>{icon}</span>
+      {label}
     </button>
   );
 
   return (
-    <div className="flex flex-col h-screen bg-slate-50 dark:bg-[#0b1120] font-sans selection:bg-blue-200 selection:text-blue-900 relative">
+    <div className="flex flex-col h-screen bg-[var(--md-bg)] font-sans selection:bg-[var(--md-primary-container)] selection:text-[var(--md-on-primary-container)] relative">
       
       {toast && (
         <div className={`fixed top-4 right-4 z-[60] px-6 py-3 rounded-lg shadow-xl border flex items-center gap-3 animate-in fade-in slide-in-from-top-4 ${
@@ -981,14 +981,14 @@ export default function App() {
       )}
 
       {/* Header Mobile (Hanya tampil di HP) */}
-      <div className="md:hidden bg-white dark:bg-[#0f172a] border-b border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between z-20 shadow-sm">
+      <div className="md:hidden bg-[var(--md-surface)] border-b border-[var(--md-outline-variant)] p-4 flex items-center justify-between z-20 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
         <div className="flex items-center gap-3">
-          <img src={logoUrl} alt="Ghaniya Stuff Order" className="h-8 w-8 rounded-lg object-cover shadow-md" />
-          <h1 className="font-bold text-lg text-slate-800 dark:text-white tracking-tight">Ghaniya Stuff Order</h1>
+          <img src={logoUrl} alt="Ghaniya Stuff Order" className="h-9 w-9 rounded-2xl object-cover shadow-[0_4px_12px_rgba(103,80,164,0.22)]" />
+          <h1 className="font-bold text-lg text-[var(--md-on-surface)] tracking-tight">Ghaniya Stuff Order</h1>
         </div>
         <button 
           onClick={() => setIsSidebarOpen(true)} 
-          className="text-slate-600 dark:text-slate-300 p-2 bg-slate-100 dark:bg-slate-800 rounded-lg active:scale-95 transition-all"
+          className="text-[var(--md-on-surface)] p-2.5 bg-[var(--md-surface-variant)] rounded-2xl active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
         >
           <Menu size={24} />
         </button>
@@ -1005,41 +1005,40 @@ export default function App() {
 
         {/* Sidebar Navigation */}
         <aside className={`
-          fixed md:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-[#0f172a] border-r border-slate-200 dark:border-slate-800 flex flex-col print:hidden shadow-2xl md:shadow-none transition-transform duration-300 ease-in-out
+          fixed md:static inset-y-0 left-0 z-50 w-64 bg-[var(--md-surface)] border-r border-[var(--md-outline-variant)] flex flex-col print:hidden transition-transform duration-300 ease-in-out shadow-[0_4px_16px_rgba(26,24,36,0.08)] md:shadow-none
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}>
-          <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="p-5 border-b border-[var(--md-outline-variant)] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src={logoUrl} alt="Ghaniya Stuff Order" className="h-8 w-8 rounded-lg object-cover shadow-md" />
-              <h1 className="font-bold text-lg text-slate-800 dark:text-white tracking-tight">Ghaniya Stuff Order</h1>
+              <img src={logoUrl} alt="Ghaniya Stuff Order" className="h-9 w-9 rounded-2xl object-cover shadow-[0_4px_12px_rgba(103,80,164,0.22)]" />
+              <h1 className="font-bold text-lg text-[var(--md-on-surface)] tracking-tight">Ghaniya Stuff Order</h1>
             </div>
-            {/* Tombol Tutup Sidebar untuk Mobile */}
-            <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 p-1.5 rounded-lg active:scale-95">
+            <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-variant)] p-1.5 rounded-xl active:scale-95">
               <X size={20} />
             </button>
           </div>
           
           <div className="p-4">
-            <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3 px-4">Menu Utama</p>
+            <p className="text-[11px] font-bold text-[var(--md-on-surface-variant)] uppercase tracking-[0.12em] mb-3 px-3">Menu Utama</p>
           </div>
           
-          <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
+          <nav className="flex-1 px-3 space-y-1.5 overflow-y-auto">
             <NavItem id="dashboard" label="Dashboard" icon={<LayoutDashboard size={20} />} />
             <NavItem id="import" label="Import Excel" icon={<Upload size={20} />} />
             <NavItem id="picking" label="Antrean Pesanan" icon={<ListChecks size={20} />} />
             <NavItem id="logs" label="Log & Statistik" icon={<BarChart3 size={20} />} />
           </nav>
 
-          <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-            <div className="rounded-lg p-2">
-              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-3 flex items-center justify-between px-2">
+          <div className="p-4 border-t border-[var(--md-outline-variant)] bg-[var(--md-surface-variant)]">
+            <div className="rounded-2xl p-2.5">
+              <p className="text-[11px] font-semibold text-[var(--md-on-surface-variant)] mb-3 flex items-center justify-between px-2 tracking-[0.08em] uppercase">
                 Activity Log
               </p>
-              <div className="space-y-2.5 max-h-32 overflow-y-auto text-[11px] text-slate-600 dark:text-slate-300 px-2">
-                {logs.length === 0 ? <span className="text-slate-400 italic">Belum ada aktivitas</span> : 
+              <div className="space-y-2.5 max-h-32 overflow-y-auto text-[11px] text-[var(--md-on-surface-variant)] px-2">
+                {logs.length === 0 ? <span className="text-[var(--md-on-surface-variant)]/70 italic">Belum ada aktivitas</span> : 
                   logs.slice(0, 4).map((log, i) => (
-                    <div key={i} className="flex flex-col gap-0.5 border-b border-slate-200/50 dark:border-slate-700/50 pb-2 last:border-0">
-                      <span className="opacity-50 font-mono">{log.time}</span>
+                    <div key={i} className="flex flex-col gap-0.5 border-b border-[var(--md-outline-variant)] pb-2 last:border-0">
+                      <span className="opacity-60 font-mono">{log.time}</span>
                       <span className="leading-tight">{log.action}</span>
                     </div>
                   ))
@@ -1051,7 +1050,7 @@ export default function App() {
 
         {/* Main Workspace Area */}
         <main className="flex-1 overflow-y-auto relative w-full">
-          <div className="p-4 md:p-10 max-w-7xl mx-auto">
+          <div className="p-4 md:p-8 max-w-7xl mx-auto">
             {currentTab === 'dashboard' && <DashboardView />}
             {currentTab === 'import' && <ImportView />}
             {currentTab === 'picking' && <PickingListView />}
