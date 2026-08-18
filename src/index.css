@@ -4,12 +4,13 @@
 
 :root {
   --md-bg: #f4f1fb;
-  --md-surface: #ffffff;
-  --md-surface-container: #f1edf9;
-  --md-surface-variant: #ece6ff;
-  --md-surface-elevated: #f8f4ff;
-  --md-outline: #d7d0ea;
-  --md-outline-variant: #ece6f4;
+  --md-surface: rgba(255, 255, 255, 0.7);
+  --md-surface-strong: #ffffff;
+  --md-surface-container: rgba(241, 237, 249, 0.9);
+  --md-surface-variant: rgba(236, 230, 255, 0.9);
+  --md-surface-elevated: rgba(248, 244, 255, 0.82);
+  --md-outline: rgba(179, 167, 210, 0.8);
+  --md-outline-variant: rgba(236, 230, 244, 0.9);
   --md-primary: #6750a4;
   --md-primary-hover: #5d4ca1;
   --md-primary-container: #e9ddff;
@@ -25,18 +26,19 @@
   --md-on-surface-variant: #49454f;
   --md-error: #ba1a1a;
   --md-success: #0f766e;
-  --md-shadow: rgba(45, 32, 75, 0.12);
-  --md-glow: rgba(103, 80, 164, 0.12);
+  --md-shadow: rgba(45, 32, 75, 0.14);
+  --md-glow: rgba(103, 80, 164, 0.14);
 }
 
 html.dark {
   --md-bg: #12131a;
-  --md-surface: #1d1b2a;
-  --md-surface-container: #232133;
-  --md-surface-variant: #2a2537;
-  --md-surface-elevated: #272238;
-  --md-outline: #4f4b5d;
-  --md-outline-variant: #2f2a3d;
+  --md-surface: rgba(29, 27, 42, 0.68);
+  --md-surface-strong: #201d2d;
+  --md-surface-container: rgba(35, 33, 51, 0.9);
+  --md-surface-variant: rgba(42, 37, 55, 0.92);
+  --md-surface-elevated: rgba(39, 34, 56, 0.88);
+  --md-outline: rgba(101, 92, 120, 0.88);
+  --md-outline-variant: rgba(47, 42, 61, 0.9);
   --md-primary: #d0bcff;
   --md-primary-hover: #c6b5ff;
   --md-primary-container: #4f3d7a;
@@ -117,4 +119,12 @@ textarea {
 
 button {
   cursor: pointer;
+}
+
+.glass-panel {
+  background: var(--md-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--md-outline-variant);
+  box-shadow: 0 18px 36px var(--md-shadow);
 }

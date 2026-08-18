@@ -379,7 +379,7 @@ export default function App() {
 
     return (
       <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500">
-        <div className="rounded-[32px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)]/85 p-6 shadow-[0_18px_36px_var(--md-shadow)] backdrop-blur-xl md:p-8">
+        <div className="glass-panel rounded-[32px] p-6 md:p-8">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Overview</p>
@@ -423,12 +423,11 @@ export default function App() {
           </div>
         )}
 
-        <div>
-            <h2 className="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Dashboard Utama</h2>
-            <p className="text-slate-500 mt-2 text-lg">Pantau ringkasan pesanan dan kebutuhan produksi antrean Anda.</p>
+        <div className="rounded-[28px] border border-[var(--md-outline-variant)] bg-[rgba(255,255,255,0.2)] p-2 md:p-3">
+          <p className="text-sm text-[var(--md-on-surface-variant)]">Pantau ringkasan pesanan dan kebutuhan produksi antrean Anda.</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
           <div className="group relative overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 shadow-[0_12px_28px_var(--md-shadow)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
             <div className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(103,80,164,0.18),_transparent_65%)]" />
             <div className="absolute right-5 top-5 flex h-14 w-14 items-center justify-center rounded-[22px] bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)] shadow-[0_8px_16px_var(--md-glow)]">
@@ -502,7 +501,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mt-8 rounded-[32px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
+        <div className="glass-panel mt-8 rounded-[32px] p-8 md:p-10">
           <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <div className="flex items-center gap-4">
               <div className="p-4 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl text-indigo-600 dark:text-indigo-400">
@@ -591,7 +590,7 @@ export default function App() {
 
   const ImportView = () => (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="rounded-[32px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 text-center shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
+      <div className="glass-panel rounded-[32px] p-8 text-center md:p-10">
         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--md-primary-container)] shadow-[0_8px_20px_var(--md-glow)]">
           <Upload className="text-[var(--md-primary)]" size={36} />
         </div>
@@ -719,7 +718,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] shadow-[0_18px_36px_var(--md-shadow)]">
+        <div className="glass-panel overflow-hidden rounded-[30px]">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
               <thead className="bg-slate-50 dark:bg-[#1e293b] text-slate-700 dark:text-slate-200 font-semibold border-b border-slate-200 dark:border-slate-700">
@@ -931,7 +930,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mt-8 overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] shadow-[0_18px_36px_var(--md-shadow)]">
+        <div className="glass-panel mt-8 overflow-hidden rounded-[30px]">
           <div className="border-b border-[var(--md-outline-variant)] bg-[var(--md-surface-container)] p-6">
             <h3 className="flex items-center gap-2 text-lg font-bold text-[var(--md-on-surface)]">
               <TrendingUp size={20} className="text-[var(--md-primary)]" /> Urutan Produk Terfavorit
@@ -1014,7 +1013,7 @@ export default function App() {
       )}
 
       {/* Header Mobile (Hanya tampil di HP) */}
-      <div className="md:hidden bg-[var(--md-surface)] border-b border-[var(--md-outline-variant)] p-4 flex items-center justify-between z-20 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
+      <div className="glass-panel z-20 flex items-center justify-between border-b border-[var(--md-outline-variant)] p-4 md:hidden">
         <div className="flex items-center gap-3">
           <img src={logoUrl} alt="Ghaniya Stuff Order" className="h-9 w-9 rounded-2xl object-cover shadow-[0_4px_12px_rgba(103,80,164,0.22)]" />
           <h1 className="font-bold text-lg text-[var(--md-on-surface)] tracking-tight">Ghaniya Stuff Order</h1>
@@ -1047,7 +1046,7 @@ export default function App() {
 
         {/* Sidebar Navigation */}
         <aside className={`
-          fixed md:static inset-y-0 left-0 z-50 w-64 flex flex-col border-r border-[var(--md-outline-variant)] bg-[var(--md-surface)]/90 backdrop-blur-xl print:hidden transition-transform duration-300 ease-in-out shadow-[0_20px_50px_rgba(18,17,26,0.12)] md:shadow-none
+          glass-panel fixed md:static inset-y-0 left-0 z-50 w-64 flex flex-col border-r border-[var(--md-outline-variant)] print:hidden transition-transform duration-300 ease-in-out md:shadow-none
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}>
           <div className="p-5 border-b border-[var(--md-outline-variant)] flex items-center justify-between">
@@ -1101,7 +1100,7 @@ export default function App() {
 
         {/* Main Workspace Area */}
         <main className="relative w-full flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-7xl p-4 md:p-8">
+          <div className="mx-auto max-w-7xl p-3 md:p-8">
             {currentTab === 'dashboard' && <DashboardView />}
             {currentTab === 'import' && <ImportView />}
             {currentTab === 'picking' && <PickingListView />}
