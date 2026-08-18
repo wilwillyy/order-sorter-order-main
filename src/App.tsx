@@ -379,7 +379,7 @@ export default function App() {
 
     return (
       <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500">
-        <div className="glass-panel rounded-[32px] p-6 md:p-8">
+        <div className="glass-panel soft-card rounded-[32px] p-6 md:p-8">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Overview</p>
@@ -478,7 +478,7 @@ export default function App() {
                 logActivity(`Menyerahkan ${readyOrders} pesanan ke kurir`);
                 showToast('Pesanan diserahkan ke kurir!', 'success');
               }}
-              className="relative mt-8 w-full bg-[var(--md-primary)] py-3.5 text-base font-semibold text-[var(--md-on-primary)] shadow-[0_10px_22px_rgba(103,80,164,0.28)] transition-all hover:bg-[var(--md-primary-hover)] active:scale-[0.99] rounded-[20px]">
+              className="soft-button relative mt-8 w-full bg-[var(--md-primary)] py-3.5 text-base font-semibold text-[var(--md-on-primary)] hover:bg-[var(--md-primary-hover)] rounded-[20px]">
               Tandai Selesai Dikirim
             </button>
           </div>
@@ -501,7 +501,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="glass-panel mt-8 rounded-[32px] p-8 md:p-10">
+        <div className="glass-panel soft-card mt-8 rounded-[32px] p-8 md:p-10">
           <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <div className="flex items-center gap-4">
               <div className="p-4 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl text-indigo-600 dark:text-indigo-400">
@@ -578,7 +578,7 @@ export default function App() {
         <div className="mt-8 flex justify-center pb-8">
           <button 
             onClick={() => setResetDialog(true)}
-            className="flex items-center gap-2 rounded-full border border-rose-200 bg-[var(--md-surface)] px-6 py-3 text-sm font-bold text-rose-500 shadow-[0_8px_22px_rgba(190,69,88,0.12)] transition-all hover:-translate-y-0.5 hover:bg-rose-50 dark:border-rose-900/40 dark:bg-[var(--md-surface)] dark:text-rose-400"
+            className="soft-button flex items-center gap-2 rounded-full border border-rose-200 bg-[var(--md-surface)] px-6 py-3 text-sm font-bold text-rose-500 shadow-[0_8px_22px_rgba(190,69,88,0.12)] hover:bg-rose-50 dark:border-rose-900/40 dark:bg-[var(--md-surface)] dark:text-rose-400"
           >
             <Trash2 size={16} /> Reset Semua Data Pesanan
           </button>
@@ -708,17 +708,17 @@ export default function App() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--md-on-surface-variant)]" size={16} />
               <input 
                 type="text" placeholder="Cari No Pesanan / Produk..." 
-                className="pl-10 pr-4 py-2.5 rounded-2xl border border-[var(--md-outline)] bg-[var(--md-surface)] text-[var(--md-on-surface)] shadow-[0_2px_8px_rgba(0,0,0,0.04)] focus:border-[var(--md-primary)] focus:outline-none"
+                className="soft-input pl-10 pr-4 py-2.5 rounded-2xl border border-[var(--md-outline)] bg-[var(--md-surface)] text-[var(--md-on-surface)] shadow-[0_2px_8px_rgba(0,0,0,0.04)] focus:border-[var(--md-primary)] focus:outline-none"
                 value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
               />
             </div>
-            <button onClick={() => isBrowser && window.print()} className="bg-[var(--md-primary)] hover:bg-[#5d4ca1] text-white px-4 py-2.5 rounded-2xl flex items-center gap-2 shadow-[0_8px_18px_rgba(103,80,164,0.24)]">
+            <button onClick={() => isBrowser && window.print()} className="soft-button bg-[var(--md-primary)] hover:bg-[var(--md-primary-hover)] text-white px-4 py-2.5 rounded-2xl flex items-center gap-2 shadow-[0_8px_18px_rgba(95,99,217,0.18)]">
               <Printer size={18} /> Print
             </button>
           </div>
         </div>
 
-        <div className="glass-panel overflow-hidden rounded-[30px]">
+        <div className="glass-panel soft-card overflow-hidden rounded-[30px]">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
               <thead className="bg-slate-50 dark:bg-[#1e293b] text-slate-700 dark:text-slate-200 font-semibold border-b border-slate-200 dark:border-slate-700">
@@ -930,7 +930,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="glass-panel mt-8 overflow-hidden rounded-[30px]">
+        <div className="glass-panel soft-card mt-8 overflow-hidden rounded-[30px]">
           <div className="border-b border-[var(--md-outline-variant)] bg-[var(--md-surface-container)] p-6">
             <h3 className="flex items-center gap-2 text-lg font-bold text-[var(--md-on-surface)]">
               <TrendingUp size={20} className="text-[var(--md-primary)]" /> Urutan Produk Terfavorit
@@ -971,7 +971,7 @@ export default function App() {
         <div className="mt-8 flex justify-center border-t border-[var(--md-outline-variant)] pb-8 pt-8">
           <button 
             onClick={() => setResetStatsDialog(true)}
-            className="flex items-center gap-2 rounded-full border border-rose-200 bg-[var(--md-surface)] px-6 py-3 text-sm font-bold text-rose-500 shadow-[0_8px_22px_rgba(190,69,88,0.12)] transition-all hover:-translate-y-0.5 hover:bg-rose-50 dark:border-rose-900/40 dark:bg-[var(--md-surface)] dark:text-rose-400"
+            className="soft-button flex items-center gap-2 rounded-full border border-rose-200 bg-[var(--md-surface)] px-6 py-3 text-sm font-bold text-rose-500 shadow-[0_8px_22px_rgba(190,69,88,0.12)] hover:bg-rose-50 dark:border-rose-900/40 dark:bg-[var(--md-surface)] dark:text-rose-400"
           >
             <Trash2 size={16} /> Reset Semua Data Statistik
           </button>
@@ -987,7 +987,7 @@ export default function App() {
         setCurrentTab(id);
         setIsSidebarOpen(false); // Otomatis tutup sidebar di HP saat menu di klik
       }}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 text-sm font-semibold tracking-[0.01em] ${
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 ease-out text-sm font-semibold tracking-[0.01em] ${
         currentTab === id
           ? 'bg-[var(--md-secondary-container)] text-[var(--md-on-secondary-container)] shadow-[0_8px_16px_rgba(98,91,113,0.18)]'
           : 'text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-container)] hover:text-[var(--md-on-surface)]'
@@ -1021,14 +1021,14 @@ export default function App() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsDark(prev => !prev)}
-            className="text-[var(--md-on-surface)] p-2.5 bg-[var(--md-surface-container)] rounded-2xl active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
+            className="soft-button text-[var(--md-on-surface)] p-2.5 bg-[var(--md-surface-container)] rounded-2xl shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
             aria-label="Toggle dark mode"
           >
             {isDark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           <button 
             onClick={() => setIsSidebarOpen(true)} 
-            className="text-[var(--md-on-surface)] p-2.5 bg-[var(--md-surface-container)] rounded-2xl active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
+            className="soft-button text-[var(--md-on-surface)] p-2.5 bg-[var(--md-surface-container)] rounded-2xl shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
           >
             <Menu size={24} />
           </button>
@@ -1057,12 +1057,12 @@ export default function App() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsDark(prev => !prev)}
-                className="text-[var(--md-on-surface)] bg-[var(--md-surface-container)] p-2 rounded-xl transition-all hover:bg-[var(--md-surface-variant)]"
+                className="soft-button text-[var(--md-on-surface)] bg-[var(--md-surface-container)] p-2 rounded-xl hover:bg-[var(--md-surface-variant)]"
                 aria-label="Toggle dark mode"
               >
                 {isDark ? <Sun size={18} /> : <Moon size={18} />}
               </button>
-              <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-container)] p-1.5 rounded-xl active:scale-95">
+              <button onClick={() => setIsSidebarOpen(false)} className="soft-button md:hidden text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-container)] p-1.5 rounded-xl">
                 <X size={20} />
               </button>
             </div>

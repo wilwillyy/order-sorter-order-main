@@ -3,59 +3,59 @@
 @tailwind utilities;
 
 :root {
-  --md-bg: #f4f1fb;
-  --md-surface: rgba(255, 255, 255, 0.7);
+  --md-bg: #f5f5f7;
+  --md-surface: rgba(255, 255, 255, 0.72);
   --md-surface-strong: #ffffff;
-  --md-surface-container: rgba(241, 237, 249, 0.9);
-  --md-surface-variant: rgba(236, 230, 255, 0.9);
-  --md-surface-elevated: rgba(248, 244, 255, 0.82);
-  --md-outline: rgba(179, 167, 210, 0.8);
-  --md-outline-variant: rgba(236, 230, 244, 0.9);
-  --md-primary: #6750a4;
-  --md-primary-hover: #5d4ca1;
-  --md-primary-container: #e9ddff;
+  --md-surface-container: rgba(245, 245, 247, 0.96);
+  --md-surface-variant: rgba(242, 240, 255, 0.94);
+  --md-surface-elevated: rgba(255, 255, 255, 0.8);
+  --md-outline: rgba(198, 195, 210, 0.7);
+  --md-outline-variant: rgba(235, 233, 241, 0.95);
+  --md-primary: #5f63d9;
+  --md-primary-hover: #5358ca;
+  --md-primary-container: #e8e9ff;
   --md-on-primary: #ffffff;
-  --md-on-primary-container: #21005d;
-  --md-secondary: #625b71;
-  --md-secondary-container: #e8def8;
-  --md-on-secondary-container: #1d192b;
-  --md-tertiary: #7d5260;
-  --md-tertiary-container: #ffd8e4;
-  --md-on-tertiary-container: #31111d;
-  --md-on-surface: #1d1b20;
-  --md-on-surface-variant: #49454f;
+  --md-on-primary-container: #1d1f58;
+  --md-secondary: #60677b;
+  --md-secondary-container: #edf0f8;
+  --md-on-secondary-container: #222a3a;
+  --md-tertiary: #8e6a7d;
+  --md-tertiary-container: #f9e7ef;
+  --md-on-tertiary-container: #3d2933;
+  --md-on-surface: #171a26;
+  --md-on-surface-variant: #575d6d;
   --md-error: #ba1a1a;
   --md-success: #0f766e;
-  --md-shadow: rgba(45, 32, 75, 0.14);
-  --md-glow: rgba(103, 80, 164, 0.14);
+  --md-shadow: rgba(21, 26, 42, 0.08);
+  --md-glow: rgba(95, 99, 217, 0.12);
 }
 
 html.dark {
-  --md-bg: #12131a;
-  --md-surface: rgba(29, 27, 42, 0.68);
-  --md-surface-strong: #201d2d;
-  --md-surface-container: rgba(35, 33, 51, 0.9);
-  --md-surface-variant: rgba(42, 37, 55, 0.92);
-  --md-surface-elevated: rgba(39, 34, 56, 0.88);
-  --md-outline: rgba(101, 92, 120, 0.88);
-  --md-outline-variant: rgba(47, 42, 61, 0.9);
-  --md-primary: #d0bcff;
-  --md-primary-hover: #c6b5ff;
-  --md-primary-container: #4f3d7a;
-  --md-on-primary: #1e1236;
-  --md-on-primary-container: #eaddff;
-  --md-secondary: #ccc2dc;
-  --md-secondary-container: #4a4458;
-  --md-on-secondary-container: #e8def8;
-  --md-tertiary: #efb8c8;
-  --md-tertiary-container: #633b48;
-  --md-on-tertiary-container: #ffd8e4;
-  --md-on-surface: #e7e1f5;
-  --md-on-surface-variant: #c8c4d7;
+  --md-bg: #0f1117;
+  --md-surface: rgba(19, 22, 31, 0.72);
+  --md-surface-strong: #181d28;
+  --md-surface-container: rgba(27, 31, 40, 0.96);
+  --md-surface-variant: rgba(34, 39, 51, 0.96);
+  --md-surface-elevated: rgba(23, 27, 37, 0.88);
+  --md-outline: rgba(93, 100, 119, 0.7);
+  --md-outline-variant: rgba(39, 44, 56, 0.96);
+  --md-primary: #a3a9ff;
+  --md-primary-hover: #b1b6ff;
+  --md-primary-container: #2f3b88;
+  --md-on-primary: #12182d;
+  --md-on-primary-container: #edf0ff;
+  --md-secondary: #d0d6eb;
+  --md-secondary-container: #2d3549;
+  --md-on-secondary-container: #edf0ff;
+  --md-tertiary: #e6c4d8;
+  --md-tertiary-container: #5b3d4f;
+  --md-on-tertiary-container: #fff0f6;
+  --md-on-surface: #eef1f8;
+  --md-on-surface-variant: #b9c0d3;
   --md-error: #ffb4ab;
   --md-success: #9be7d7;
-  --md-shadow: rgba(0, 0, 0, 0.46);
-  --md-glow: rgba(208, 188, 255, 0.18);
+  --md-shadow: rgba(0, 0, 0, 0.38);
+  --md-glow: rgba(163, 169, 255, 0.14);
 }
 
 html,
@@ -69,9 +69,9 @@ body {
   min-height: 100vh;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(182, 170, 255, 0.42), transparent 25%),
-    radial-gradient(circle at top right, rgba(255, 175, 205, 0.22), transparent 30%),
-    linear-gradient(180deg, var(--md-bg) 0%, #efe9ff 100%);
+    radial-gradient(circle at top left, rgba(163, 169, 255, 0.18), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(236, 180, 215, 0.12), transparent 35%),
+    linear-gradient(180deg, var(--md-bg) 0%, #f0f1f6 100%);
   color: var(--md-on-surface);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -79,9 +79,9 @@ body {
 
 html.dark body {
   background:
-    radial-gradient(circle at top left, rgba(176, 145, 255, 0.22), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(122, 142, 255, 0.18), transparent 30%),
-    linear-gradient(180deg, var(--md-bg) 0%, #0d0f18 100%);
+    radial-gradient(circle at top left, rgba(163, 169, 255, 0.14), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(112, 136, 255, 0.1), transparent 30%),
+    linear-gradient(180deg, var(--md-bg) 0%, #0b0d13 100%);
 }
 
 html {
@@ -119,6 +119,11 @@ textarea {
 
 button {
   cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, border-color 180ms ease, opacity 180ms ease;
+}
+
+button:active {
+  transform: scale(0.985);
 }
 
 .glass-panel {
@@ -126,5 +131,54 @@ button {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--md-outline-variant);
-  box-shadow: 0 18px 36px var(--md-shadow);
+  box-shadow: 0 12px 28px var(--md-shadow);
+}
+
+.soft-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.68));
+  border: 1px solid var(--md-outline-variant);
+  box-shadow: 0 14px 28px var(--md-shadow);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+html.dark .soft-card {
+  background: linear-gradient(180deg, rgba(24, 29, 39, 0.88), rgba(19, 22, 31, 0.82));
+}
+
+.soft-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 32px rgba(17, 24, 39, 0.08);
+}
+
+.soft-button {
+  border-radius: 18px;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 18px rgba(95, 99, 217, 0.12);
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.soft-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 20px rgba(95, 99, 217, 0.16);
+}
+
+.soft-button:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.soft-input {
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.soft-input:focus {
+  border-color: rgba(95, 99, 217, 0.7);
+  box-shadow: 0 0 0 4px rgba(95, 99, 217, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
