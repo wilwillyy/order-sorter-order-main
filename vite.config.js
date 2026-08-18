@@ -4,7 +4,13 @@ import { loadEnv } from 'vite';
 export default defineConfig(function (_a) {
     var mode = _a.mode;
     var env = loadEnv(mode, process.cwd(), '');
-    var getFirebaseValue = function (key) { return env["firebase_".concat(key.toLowerCase())] || env["FIREBASE_".concat(key)] || env["VITE_FIREBASE_".concat(key)] || ''; };
+    var getFirebaseValue = function (key) {
+        var normalizedKey = key.toLowerCase();
+        var aliases = key === 'PROJECT_ID'
+            ? ['firebase_project_id', 'firebase_projectid', 'FIREBASE_PROJECT_ID', 'VITE_FIREBASE_PROJECT_ID']
+            : ["firebase_".concat(normalizedKey), "FIREBASE_".concat(key), "VITE_FIREBASE_".concat(key)];
+        return aliases.map(function (alias) { return env[alias]; }).find(Boolean) || '';
+    };
     return {
         plugins: [react()],
         define: {
