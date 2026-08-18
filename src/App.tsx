@@ -11,10 +11,12 @@ import {
   LayoutDashboard,
   ListChecks,
   Menu,
+  Moon,
   Package,
   PackageOpen,
   Printer,
   Search,
+  Sun,
   Trash2,
   TrendingUp,
   Upload,
@@ -123,6 +125,16 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<ToastState>(null);
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    if (!isBrowser) return false;
+
+    const savedTheme = window.localStorage.getItem('wms_theme');
+    if (savedTheme !== null) {
+      return savedTheme === 'dark';
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   useEffect(() => {
     setOrders(getStorage<Order[]>(STORAGE_KEYS.orders, []));
@@ -131,6 +143,13 @@ export default function App() {
     setLogs(getStorage<LogEntry[]>(STORAGE_KEYS.logs, []));
     setHasHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (!isBrowser) return;
+    document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+    window.localStorage.setItem('wms_theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
 
   useEffect(() => {
     if (!hasHydrated) return;
@@ -360,6 +379,18 @@ export default function App() {
 
     return (
       <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500">
+        <div className="rounded-[32px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)]/85 p-6 shadow-[0_18px_36px_var(--md-shadow)] backdrop-blur-xl md:p-8">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Overview</p>
+              <h2 className="text-3xl font-black tracking-[-0.05em] text-[var(--md-on-surface)]">Dashboard Utama</h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-full bg-[var(--md-primary-container)] px-3 py-1.5 text-xs font-semibold text-[var(--md-on-primary-container)]">Live</span>
+              <span className="rounded-full bg-[var(--md-secondary-container)] px-3 py-1.5 text-xs font-semibold text-[var(--md-on-secondary-container)]">Warehouse</span>
+            </div>
+          </div>
+        </div>
         
         {resetDialog && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
@@ -398,42 +429,45 @@ export default function App() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          <div className="bg-gradient-to-br from-[var(--md-primary)] to-[#7C67C9] p-8 md:p-10 rounded-[28px] shadow-[0_12px_32px_rgba(103,80,164,0.22)] text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
-            <Package className="absolute -right-6 -top-6 w-40 h-40 text-white opacity-10 group-hover:scale-110 transition-transform duration-700 ease-out" />
-            <div>
-              <div className="flex items-center gap-3 mb-4 opacity-90">
-                <Package size={28} /> <h3 className="font-semibold text-xl tracking-[0.08em] uppercase">Total Pesanan Aktif</h3>
-              </div>
-              <p className="text-7xl font-black drop-shadow-md">{totalOrders}</p>
+          <div className="group relative overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 shadow-[0_12px_28px_var(--md-shadow)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
+            <div className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(103,80,164,0.18),_transparent_65%)]" />
+            <div className="absolute right-5 top-5 flex h-14 w-14 items-center justify-center rounded-[22px] bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)] shadow-[0_8px_16px_var(--md-glow)]">
+              <Package size={28} />
             </div>
-            <div className="mt-10 flex flex-wrap gap-3 text-sm font-bold">
-              <span className="bg-white/15 backdrop-blur-md px-6 py-3 rounded-2xl flex-1 text-center shadow-inner border border-white/10 text-lg">Shopee: {shopeeOrders}</span>
-              <span className="bg-white/15 backdrop-blur-md px-6 py-3 rounded-2xl flex-1 text-center shadow-inner border border-white/10 text-lg">TikTok: {tiktokOrders}</span>
+            <div className="relative">
+              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Total Pesanan Aktif</p>
+              <p className="text-6xl font-black tracking-[-0.06em] text-[var(--md-on-surface)]">{totalOrders}</p>
+            </div>
+            <div className="relative mt-8 flex flex-wrap gap-3 text-sm font-semibold">
+              <span className="rounded-full bg-[var(--md-secondary-container)] px-4 py-2 text-[var(--md-on-secondary-container)]">Shopee: {shopeeOrders}</span>
+              <span className="rounded-full bg-[var(--md-tertiary-container)] px-4 py-2 text-[var(--md-on-tertiary-container)]">TikTok: {tiktokOrders}</span>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-[#FFB86C] to-[#F97E6A] p-8 md:p-10 rounded-[28px] shadow-[0_12px_32px_rgba(249,126,106,0.22)] text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
-            <PackageOpen className="absolute -right-6 -top-6 w-40 h-40 text-white opacity-10 group-hover:scale-110 transition-transform duration-700 ease-out" />
-            <div>
-              <div className="flex items-center gap-3 mb-4 opacity-90">
-                <PackageOpen size={28} /> <h3 className="font-semibold text-xl tracking-[0.08em] uppercase">Belum di Packing</h3>
-              </div>
-              <p className="text-7xl font-black drop-shadow-md">{pendingOrders}</p>
+          <div className="group relative overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 shadow-[0_12px_28px_var(--md-shadow)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
+            <div className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(255,160,122,0.24),_transparent_70%)]" />
+            <div className="absolute right-5 top-5 flex h-14 w-14 items-center justify-center rounded-[22px] bg-[var(--md-tertiary-container)] text-[var(--md-on-tertiary-container)] shadow-[0_8px_16px_rgba(255,136,136,0.18)]">
+              <PackageOpen size={28} />
             </div>
-            <div className="mt-10">
-              <span className="bg-white/15 backdrop-blur-md px-6 py-3 rounded-2xl inline-block w-full text-center shadow-inner border border-white/10 text-base font-semibold">
+            <div className="relative">
+              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Belum di Packing</p>
+              <p className="text-6xl font-black tracking-[-0.06em] text-[var(--md-on-surface)]">{pendingOrders}</p>
+            </div>
+            <div className="relative mt-8">
+              <span className="inline-flex w-full justify-center rounded-[22px] bg-[var(--md-surface-container)] px-4 py-3 text-sm font-semibold text-[var(--md-on-surface)]">
                 Pesanan status PENDING di Antrean
               </span>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-[#3EC8A4] to-[#0E9F8D] p-8 md:p-10 rounded-[28px] shadow-[0_12px_32px_rgba(14,159,141,0.22)] text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
-            <CheckCircle className="absolute -right-6 -top-6 w-40 h-40 text-white opacity-10 group-hover:scale-110 transition-transform duration-700 ease-out" />
-            <div>
-              <div className="flex items-center gap-3 mb-4 opacity-90">
-                <CheckCircle size={28} /> <h3 className="font-semibold text-xl tracking-[0.08em] uppercase">Siap Dikirim Ke Kurir</h3>
-              </div>
-              <p className="text-7xl font-black drop-shadow-md">{readyOrders}</p>
+          <div className="group relative overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 shadow-[0_12px_28px_var(--md-shadow)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
+            <div className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(43,190,160,0.18),_transparent_70%)]" />
+            <div className="absolute right-5 top-5 flex h-14 w-14 items-center justify-center rounded-[22px] bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)] shadow-[0_8px_16px_var(--md-glow)]">
+              <CheckCircle size={28} />
+            </div>
+            <div className="relative">
+              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Siap Dikirim Ke Kurir</p>
+              <p className="text-6xl font-black tracking-[-0.06em] text-[var(--md-on-surface)]">{readyOrders}</p>
             </div>
             <button 
               onClick={() => {
@@ -445,32 +479,31 @@ export default function App() {
                 logActivity(`Menyerahkan ${readyOrders} pesanan ke kurir`);
                 showToast('Pesanan diserahkan ke kurir!', 'success');
               }}
-              className="mt-10 w-full bg-white hover:bg-slate-50 text-[#0E9F8D] py-4 rounded-2xl text-lg font-bold transition-all shadow-[0_10px_24px_rgba(11,73,64,0.2)] active:scale-95 border-2 border-transparent hover:border-emerald-100">
+              className="relative mt-8 w-full bg-[var(--md-primary)] py-3.5 text-base font-semibold text-[var(--md-on-primary)] shadow-[0_10px_22px_rgba(103,80,164,0.28)] transition-all hover:bg-[var(--md-primary-hover)] active:scale-[0.99] rounded-[20px]">
               Tandai Selesai Dikirim
             </button>
           </div>
 
-          <div className="bg-gradient-to-br from-[#AF7AFB] to-[#6B5BF5] p-8 md:p-10 rounded-[28px] shadow-[0_12px_32px_rgba(107,91,245,0.22)] text-white flex flex-col justify-between relative overflow-hidden group hover:-translate-y-1 transition-transform">
-            <Archive className="absolute -right-6 -top-6 w-40 h-40 text-white opacity-10 group-hover:scale-110 transition-transform duration-700 ease-out" />
-            <div>
-              <div className="flex items-center gap-3 mb-4 opacity-90">
-                <Archive size={28} /> <h3 className="font-semibold text-xl tracking-[0.08em] uppercase">Progress Harian</h3>
-              </div>
+          <div className="group relative overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 shadow-[0_12px_28px_var(--md-shadow)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
+            <div className="absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,_rgba(95,115,255,0.18),_transparent_68%)]" />
+            <div className="absolute right-5 top-5 flex h-14 w-14 items-center justify-center rounded-[22px] bg-[var(--md-secondary-container)] text-[var(--md-on-secondary-container)] shadow-[0_8px_16px_rgba(98,91,113,0.16)]">
+              <Archive size={28} />
+            </div>
+            <div className="relative">
+              <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Progress Harian</p>
               <div className="flex items-end gap-2">
-                <p className="text-7xl font-black drop-shadow-md">{progress}%</p>
-                <p className="text-xl opacity-80 mb-2 font-medium">Selesai</p>
+                <p className="text-6xl font-black tracking-[-0.06em] text-[var(--md-on-surface)]">{progress}%</p>
+                <p className="pb-2 text-base font-medium text-[var(--md-on-surface-variant)]">Selesai</p>
               </div>
             </div>
-            <div className="w-full bg-white/20 h-6 mt-10 rounded-full overflow-hidden backdrop-blur-md p-1 shadow-inner">
-              <div className="bg-white h-full rounded-full transition-all duration-1000 ease-out relative shadow-sm" style={{ width: `${progress}%` }}>
-                {progress > 0 && <div className="absolute inset-0 bg-white/50 animate-pulse rounded-full"></div>}
-              </div>
+            <div className="relative mt-8 w-full rounded-full bg-[var(--md-surface-container)] p-1.5 shadow-inner">
+              <div className="h-3 rounded-full bg-[var(--md-primary)] transition-all duration-700" style={{ width: `${progress}%` }} />
             </div>
           </div>
         </div>
 
-        <div className="mt-8 bg-white dark:bg-[#0f172a] rounded-[2rem] p-8 md:p-10 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div className="mt-8 rounded-[32px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
+          <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <div className="flex items-center gap-4">
               <div className="p-4 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl text-indigo-600 dark:text-indigo-400">
                 <ListChecks size={32} />
@@ -543,10 +576,10 @@ export default function App() {
           </div>
         </div>
 
-        <div className="mt-12 flex justify-center pb-8">
+        <div className="mt-8 flex justify-center pb-8">
           <button 
             onClick={() => setResetDialog(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 border-2 border-rose-100 dark:border-rose-900/30 text-rose-500 hover:bg-rose-50 hover:border-rose-300 dark:hover:bg-rose-900/20 rounded-full font-bold text-sm transition-all shadow-sm"
+            className="flex items-center gap-2 rounded-full border border-rose-200 bg-[var(--md-surface)] px-6 py-3 text-sm font-bold text-rose-500 shadow-[0_8px_22px_rgba(190,69,88,0.12)] transition-all hover:-translate-y-0.5 hover:bg-rose-50 dark:border-rose-900/40 dark:bg-[var(--md-surface)] dark:text-rose-400"
           >
             <Trash2 size={16} /> Reset Semua Data Pesanan
           </button>
@@ -558,8 +591,8 @@ export default function App() {
 
   const ImportView = () => (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="bg-[var(--md-surface)] rounded-[28px] p-8 border border-[var(--md-outline-variant)] shadow-[0_8px_24px_rgba(34,28,43,0.08)] text-center">
-        <div className="w-20 h-20 bg-[var(--md-primary-container)] rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_8px_20px_rgba(103,80,164,0.16)]">
+      <div className="rounded-[32px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-8 text-center shadow-[0_18px_36px_var(--md-shadow)] md:p-10">
+        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--md-primary-container)] shadow-[0_8px_20px_var(--md-glow)]">
           <Upload className="text-[var(--md-primary)]" size={36} />
         </div>
         <h2 className="text-2xl font-bold text-[var(--md-on-surface)] mb-2">Upload Data Pesanan</h2>
@@ -666,10 +699,10 @@ export default function App() {
           </div>
         )}
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 print:hidden">
+        <div className="flex flex-col items-start justify-between gap-4 print:hidden md:flex-row md:items-center">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-white uppercase tracking-tight">Daftar Antrean Pesanan Aktif</h2>
-            <p className="text-slate-500 text-sm mt-1">Menampilkan daftar pesanan utuh yang masuk ke sistem WMS (Tidak menampilkan yang sudah selesai).</p>
+            <h2 className="text-2xl font-black uppercase tracking-[-0.04em] text-[var(--md-on-surface)]">Daftar Antrean Pesanan Aktif</h2>
+            <p className="mt-1 text-sm text-[var(--md-on-surface-variant)]">Menampilkan daftar pesanan utuh yang masuk ke sistem WMS (Tidak menampilkan yang sudah selesai).</p>
           </div>
           <div className="flex gap-3 w-full md:w-auto">
             <div className="relative">
@@ -686,7 +719,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="bg-[var(--md-surface)] rounded-[28px] shadow-[0_8px_24px_rgba(34,28,43,0.08)] border border-[var(--md-outline-variant)] overflow-hidden">
+        <div className="overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] shadow-[0_18px_36px_var(--md-shadow)]">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm text-slate-600 dark:text-slate-300">
               <thead className="bg-slate-50 dark:bg-[#1e293b] text-slate-700 dark:text-slate-200 font-semibold border-b border-slate-200 dark:border-slate-700">
@@ -846,12 +879,12 @@ export default function App() {
           </div>
         )}
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-white uppercase tracking-tight flex items-center gap-3">
-              <History className="text-blue-500" /> Log & Statistik Penjualan
+            <h2 className="flex items-center gap-3 text-2xl font-black uppercase tracking-[-0.04em] text-[var(--md-on-surface)]">
+              <History className="text-[var(--md-primary)]" /> Log & Statistik Penjualan
             </h2>
-            <p className="text-slate-500 text-sm mt-1">Pantau akumulasi seluruh riwayat pesanan (Tidak akan terhapus meski antrean gudang dibersihkan).</p>
+            <p className="mt-1 text-sm text-[var(--md-on-surface-variant)]">Pantau akumulasi seluruh riwayat pesanan (Tidak akan terhapus meski antrean gudang dibersihkan).</p>
           </div>
           
           <div className="flex bg-white dark:bg-slate-800 rounded-lg p-1 border border-slate-200 dark:border-slate-700 shadow-sm">
@@ -876,32 +909,32 @@ export default function App() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-6">
-            <div className="p-4 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-500 rounded-full">
-              <BarChart3 size={32} />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="flex items-center gap-6 rounded-[28px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-6 shadow-[0_12px_24px_var(--md-shadow)]">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--md-primary-container)] text-[var(--md-on-primary-container)]">
+              <BarChart3 size={30} />
             </div>
             <div>
-              <p className="text-sm font-bold text-slate-500 uppercase tracking-wide">Total Order Filtered</p>
-              <p className="text-4xl font-black text-slate-800 dark:text-white">{totalDisplayOrders} <span className="text-lg font-medium text-slate-400">Pesanan</span></p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Total Order Filtered</p>
+              <p className="mt-2 text-4xl font-black tracking-[-0.05em] text-[var(--md-on-surface)]">{totalDisplayOrders} <span className="text-lg font-medium text-[var(--md-on-surface-variant)]">Pesanan</span></p>
             </div>
           </div>
           
-          <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-6">
-            <div className="p-4 bg-teal-50 dark:bg-teal-900/30 text-teal-500 rounded-full">
-              <TrendingUp size={32} />
+          <div className="flex items-center gap-6 rounded-[28px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] p-6 shadow-[0_12px_24px_var(--md-shadow)]">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--md-secondary-container)] text-[var(--md-on-secondary-container)]">
+              <TrendingUp size={30} />
             </div>
             <div>
-              <p className="text-sm font-bold text-slate-500 uppercase tracking-wide">Total Produk Terjual</p>
-              <p className="text-4xl font-black text-slate-800 dark:text-white">{totalItemsPurchased} <span className="text-lg font-medium text-slate-400">Pcs</span></p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--md-on-surface-variant)]">Total Produk Terjual</p>
+              <p className="mt-2 text-4xl font-black tracking-[-0.05em] text-[var(--md-on-surface)]">{totalItemsPurchased} <span className="text-lg font-medium text-[var(--md-on-surface-variant)]">Pcs</span></p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-[#0f172a] rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden mt-8">
-          <div className="p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-              <TrendingUp size={20} className="text-rose-500" /> Urutan Produk Terfavorit
+        <div className="mt-8 overflow-hidden rounded-[30px] border border-[var(--md-outline-variant)] bg-[var(--md-surface)] shadow-[0_18px_36px_var(--md-shadow)]">
+          <div className="border-b border-[var(--md-outline-variant)] bg-[var(--md-surface-container)] p-6">
+            <h3 className="flex items-center gap-2 text-lg font-bold text-[var(--md-on-surface)]">
+              <TrendingUp size={20} className="text-[var(--md-primary)]" /> Urutan Produk Terfavorit
             </h3>
           </div>
           <div className="overflow-x-auto p-4">
@@ -936,10 +969,10 @@ export default function App() {
         </div>
 
         {/* Tombol Reset Mandiri untuk Log & Statistik */}
-        <div className="mt-8 flex justify-center pb-8 border-t border-slate-200 dark:border-slate-800 pt-8">
+        <div className="mt-8 flex justify-center border-t border-[var(--md-outline-variant)] pb-8 pt-8">
           <button 
             onClick={() => setResetStatsDialog(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-slate-800 border-2 border-rose-100 dark:border-rose-900/30 text-rose-500 hover:bg-rose-50 hover:border-rose-300 dark:hover:bg-rose-900/20 rounded-full font-bold text-sm transition-all shadow-sm"
+            className="flex items-center gap-2 rounded-full border border-rose-200 bg-[var(--md-surface)] px-6 py-3 text-sm font-bold text-rose-500 shadow-[0_8px_22px_rgba(190,69,88,0.12)] transition-all hover:-translate-y-0.5 hover:bg-rose-50 dark:border-rose-900/40 dark:bg-[var(--md-surface)] dark:text-rose-400"
           >
             <Trash2 size={16} /> Reset Semua Data Statistik
           </button>
@@ -957,8 +990,8 @@ export default function App() {
       }}
       className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 text-sm font-semibold tracking-[0.01em] ${
         currentTab === id
-          ? 'bg-[var(--md-secondary-container)] text-[var(--md-on-secondary-container)] shadow-[0_1px_2px_rgba(0,0,0,0.06)]'
-          : 'text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-variant)]'
+          ? 'bg-[var(--md-secondary-container)] text-[var(--md-on-secondary-container)] shadow-[0_8px_16px_rgba(98,91,113,0.18)]'
+          : 'text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-container)] hover:text-[var(--md-on-surface)]'
       }`}
     >
       <span className={currentTab === id ? 'text-[var(--md-primary)]' : 'text-[var(--md-on-surface-variant)]'}>{icon}</span>
@@ -967,7 +1000,7 @@ export default function App() {
   );
 
   return (
-    <div className="flex flex-col h-screen bg-[var(--md-bg)] font-sans selection:bg-[var(--md-primary-container)] selection:text-[var(--md-on-primary-container)] relative">
+    <div className="relative flex h-screen flex-col bg-[var(--md-bg)] font-sans selection:bg-[var(--md-primary-container)] selection:text-[var(--md-on-primary-container)]">
       
       {toast && (
         <div className={`fixed top-4 right-4 z-[60] px-6 py-3 rounded-lg shadow-xl border flex items-center gap-3 animate-in fade-in slide-in-from-top-4 ${
@@ -986,12 +1019,21 @@ export default function App() {
           <img src={logoUrl} alt="Ghaniya Stuff Order" className="h-9 w-9 rounded-2xl object-cover shadow-[0_4px_12px_rgba(103,80,164,0.22)]" />
           <h1 className="font-bold text-lg text-[var(--md-on-surface)] tracking-tight">Ghaniya Stuff Order</h1>
         </div>
-        <button 
-          onClick={() => setIsSidebarOpen(true)} 
-          className="text-[var(--md-on-surface)] p-2.5 bg-[var(--md-surface-variant)] rounded-2xl active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
-        >
-          <Menu size={24} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsDark(prev => !prev)}
+            className="text-[var(--md-on-surface)] p-2.5 bg-[var(--md-surface-container)] rounded-2xl active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
+            aria-label="Toggle dark mode"
+          >
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button 
+            onClick={() => setIsSidebarOpen(true)} 
+            className="text-[var(--md-on-surface)] p-2.5 bg-[var(--md-surface-container)] rounded-2xl active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.08)]"
+          >
+            <Menu size={24} />
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-1 overflow-hidden">
@@ -1005,7 +1047,7 @@ export default function App() {
 
         {/* Sidebar Navigation */}
         <aside className={`
-          fixed md:static inset-y-0 left-0 z-50 w-64 bg-[var(--md-surface)] border-r border-[var(--md-outline-variant)] flex flex-col print:hidden transition-transform duration-300 ease-in-out shadow-[0_4px_16px_rgba(26,24,36,0.08)] md:shadow-none
+          fixed md:static inset-y-0 left-0 z-50 w-64 flex flex-col border-r border-[var(--md-outline-variant)] bg-[var(--md-surface)]/90 backdrop-blur-xl print:hidden transition-transform duration-300 ease-in-out shadow-[0_20px_50px_rgba(18,17,26,0.12)] md:shadow-none
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}>
           <div className="p-5 border-b border-[var(--md-outline-variant)] flex items-center justify-between">
@@ -1013,9 +1055,18 @@ export default function App() {
               <img src={logoUrl} alt="Ghaniya Stuff Order" className="h-9 w-9 rounded-2xl object-cover shadow-[0_4px_12px_rgba(103,80,164,0.22)]" />
               <h1 className="font-bold text-lg text-[var(--md-on-surface)] tracking-tight">Ghaniya Stuff Order</h1>
             </div>
-            <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-variant)] p-1.5 rounded-xl active:scale-95">
-              <X size={20} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsDark(prev => !prev)}
+                className="text-[var(--md-on-surface)] bg-[var(--md-surface-container)] p-2 rounded-xl transition-all hover:bg-[var(--md-surface-variant)]"
+                aria-label="Toggle dark mode"
+              >
+                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+              <button onClick={() => setIsSidebarOpen(false)} className="md:hidden text-[var(--md-on-surface-variant)] hover:bg-[var(--md-surface-container)] p-1.5 rounded-xl active:scale-95">
+                <X size={20} />
+              </button>
+            </div>
           </div>
           
           <div className="p-4">
@@ -1049,8 +1100,8 @@ export default function App() {
         </aside>
 
         {/* Main Workspace Area */}
-        <main className="flex-1 overflow-y-auto relative w-full">
-          <div className="p-4 md:p-8 max-w-7xl mx-auto">
+        <main className="relative w-full flex-1 overflow-y-auto">
+          <div className="mx-auto max-w-7xl p-4 md:p-8">
             {currentTab === 'dashboard' && <DashboardView />}
             {currentTab === 'import' && <ImportView />}
             {currentTab === 'picking' && <PickingListView />}
